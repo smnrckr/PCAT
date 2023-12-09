@@ -4,7 +4,8 @@
   "description": "PCAT phptp app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "keywords": [
     "photo",
@@ -14,6 +15,18 @@
   "author": "Semanur Çakır",
   "license": "ISC",
   "devDependencies": {
+    "nodemon": "^3.0.2",
     "prettier": "3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smnrckr/PCAT.git"
+  },
+  "bugs": {
+    "url": "https://github.com/smnrckr/PCAT/issues"
+  },
+  "homepage": "https://github.com/smnrckr/PCAT#readme",
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
