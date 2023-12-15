@@ -1,14 +1,21 @@
-const Photo = require('../models/Photo')
-const fs = require('fs')
+const Photo = require('../models/Photo');
+const fs = require('fs');
 
 exports.getAllPhotes = async (req, res) => {
-  try {
-    const photos = await Photo.find({}).sort('-dateCreated'); // Fetch photos from the database
-    res.render('index', { photos }); // Pass the photos array to the template
-  } catch (error) {
-    console.error('Error fetching photos:', error);
-    res.status(500).send('Internal Server Error');
-  }
+  const pages = req.query.page || 1;
+  const photosPerPage = 2;
+  const totalPhotos = await Photo.find().countDocuments();
+
+  const photos = await Photo.find({})
+    .sort('-dateCreated')
+    .skip((pages - 1) * photosPerPage)
+    .limit(photosPerPage);
+
+  res.render('index', {
+    photos: photos,
+    current: pages,
+    pages: Math.ceil(totalPhotos / photosPerPage),
+  });
 };
 
 exports.getPhoto = async (req, res) => {
@@ -19,7 +26,6 @@ exports.getPhoto = async (req, res) => {
 };
 
 exports.createPhoto = async (req, res) => {
-  console.log('Received POST request for /photos');
   const uploadDir = 'public/uploads';
 
   if (!fs.existsSync(uploadDir)) {
